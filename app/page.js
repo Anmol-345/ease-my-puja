@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useState, useRef, useEffect } from "react";
 
 function useInView(threshold = 0.1) {
@@ -35,113 +35,207 @@ const SectionBadge = ({ text }) => (
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: "Why Us", href: "#why-us" },
+    { name: "Services", href: "#services" },
+    { name: "How it works", href: "#how-it-works" },
+    { name: "Team", href: "#team" },
+    { name: "FAQs", href: "#faqs" },
+  ];
+
   return (
-    <nav className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 md:px-10 h-16 md:h-20 flex items-center justify-between">
-        <div className="flex items-center gap-2 cursor-pointer transition-transform hover:scale-105">
-          <img src="/extracted_10.png" alt="Ease My Puja Logo" className="w-9 h-9 md:w-11 md:h-11 rounded-xl object-cover" />
-          <span className="font-serif text-xl md:text-2xl font-black text-[#5c4a3d] tracking-tight">Ease My Puja</span>
-        </div>
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8 text-[#5c4a3d] font-semibold text-sm">
-          <a href="#why-us" className="hover:text-[#d92a2a] transition-colors">Why Us</a>
-          <a href="#services" className="hover:text-[#d92a2a] transition-colors">Services</a>
-          <a href="#how-it-works" className="hover:text-[#d92a2a] transition-colors">How It Works</a>
-          <a href="#team" className="hover:text-[#d92a2a] transition-colors">Team</a>
-          <a href="#faqs" className="hover:text-[#d92a2a] transition-colors">FAQs</a>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="bg-gradient-to-r from-[#ffaf60] to-[#ee5e36] text-white px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold shadow-md hover:shadow-lg transition-all hover:scale-105 active:scale-95 text-xs md:text-sm whitespace-nowrap">
-            Book a Pandit
-          </button>
-          {/* Hamburger */}
-          <button
-            className="md:hidden flex flex-col gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            <span className={`block w-5 h-0.5 bg-[#5c4a3d] transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-5 h-0.5 bg-[#5c4a3d] transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-5 h-0.5 bg-[#5c4a3d] transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-          </button>
-        </div>
-      </div>
-      {/* Mobile dropdown */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? "max-h-72 border-t border-gray-100" : "max-h-0"}`}>
-        <div className="flex flex-col px-4 py-4 gap-4 bg-white text-[#5c4a3d] font-semibold text-sm">
-          {["why-us", "services", "how-it-works", "team", "faqs"].map((id) => (
-            <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}
-              className="capitalize hover:text-[#d92a2a] transition-colors py-1 border-b border-gray-50">
-              {id.replace(/-/g, " ")}
+    <div className="fixed top-4 md:top-8 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none mb-6">
+      <nav className={`
+        pointer-events-auto relative w-full max-w-4xl bg-white/90 backdrop-blur-xl border border-gray-100/50 
+        rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-500 ease-out
+        ${scrolled ? "py-3 px-6 md:px-10 border-gray-200/50" : "py-4 px-8 md:px-12"}
+      `}>
+        <div className="flex items-center justify-between">
+          {/* Desktop Left Links */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#team" className="text-[15px] font-bold text-[#5c4a3d] hover:text-[#d92a2a] transition-colors tracking-tight">Team</a>
+            <a href="#services" className="text-[15px] font-bold text-[#5c4a3d] hover:text-[#d92a2a] transition-colors tracking-tight">Services</a>
+          </div>
+
+          {/* Brand Name (Center) */}
+          <div className="flex items-center gap-2 cursor-pointer transition-transform hover:scale-105 active:scale-95">
+            <a href="#" className="text-[15px] font-bold text-[#5c4a3d] hover:text-[#d92a2a] transition-colors tracking-tight">
+              <span className="font-sans text-lg md:text-2xl font-black text-[#ee5e36] tracking-tighter uppercase drop-shadow-sm">
+                Ease My Puja
+              </span>
             </a>
-          ))}
+          </div>
+
+          {/* Desktop Right Links */}
+          <div className="hidden md:flex items-center gap-8 font-bold">
+            <a href="#how-it-works" className="text-[15px] text-[#5c4a3d] hover:text-[#d92a2a] transition-colors tracking-tight">How it works</a>
+            <a href="#faqs" className="text-[15px] text-[#5c4a3d] hover:text-[#d92a2a] transition-colors tracking-tight">FAQs</a>
+          </div>
+
+          {/* Hamburger (Mobile only) */}
+          <div className="md:hidden flex items-center">
+            <button
+              className="flex flex-col gap-1 p-2 rounded-full hover:bg-gray-100 transition-colors"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
+              <div className={`w-5 h-0.5 bg-[#5c4a3d] rounded-full transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-1.5" : ""}`} />
+              <div className={`w-5 h-0.5 bg-[#5c4a3d] rounded-full transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+              <div className={`w-5 h-0.5 bg-[#5c4a3d] rounded-full transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-1.5" : ""}`} />
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+
+        {/* Mobile Dropdown */}
+        <div className={`
+          md:hidden absolute top-full left-0 right-0 mt-4 overflow-hidden transition-all duration-500 ease-in-out
+          ${menuOpen ? "max-h-[400px] opacity-100 scale-100" : "max-h-0 opacity-0 scale-95"}
+        `}>
+          <div className="bg-white/95 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-2xl p-6 flex flex-col gap-5 items-center">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="text-lg font-bold text-[#5c4a3d] hover:text-[#d92a2a] transition-colors"
+              >
+                {link.name}
+              </a>
+            ))}
+            <button className="w-full bg-gradient-to-r from-[#ffaf60] to-[#ee5e36] text-white py-4 rounded-2xl font-bold text-lg shadow-lg">
+              Book a Pandit
+            </button>
+          </div>
+        </div>
+      </nav>
+    </div>
   );
 };
+
+// ─── Smartphone Frame ─────────────────────────────────────────────────────────
+
+const SmartphoneFrame = ({ children, width, height, rotate, translate, scale, zIndex, label, isMain }) => (
+  <div className={`relative flex-shrink-0 transition-all duration-700 z-${zIndex} cursor-pointer group ${rotate} ${translate} ${scale}`}>
+    {/* Hardware Buttons */}
+    {/* Left: Volume Buttons */}
+    <div className="absolute left-[-2px] top-24 w-[3.5px] h-12 bg-gray-800 rounded-l-md border-y border-l border-gray-700/50 z-0" />
+    <div className="absolute left-[-2px] top-40 w-[3.5px] h-12 bg-gray-800 rounded-l-md border-y border-l border-gray-700/50 z-0" />
+    {/* Right: Power Button */}
+    <div className="absolute right-[-2px] top-32 w-[3.5px] h-14 bg-gray-800 rounded-r-md border-y border-r border-gray-700/50 z-0" />
+
+    {/* Main Device Frame */}
+    <div className={`
+      relative bg-[#0a0a0b] shadow-[0_40px_100px_rgba(0,0,0,0.4)] border-[1px] border-gray-700/30 ring-[10px] ring-gray-900 ring-inset
+      ${isMain ? "rounded-[3rem] p-[10px]" : "rounded-[2.5rem] p-[8px]"}
+    `}>
+      {/* Notch */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-[18px] bg-gray-900 rounded-b-2xl z-30 flex items-center justify-center">
+        <div className="w-8 h-1 bg-gray-800/50 rounded-full mb-1" />
+      </div>
+
+      {/* Screen Content */}
+      <div className={`overflow-hidden relative ${isMain ? "rounded-[2.4rem]" : "rounded-[2rem]"}`}>
+        {children}
+      </div>
+
+      {/* Bottom Chin Area */}
+      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gray-800/20 rounded-full" />
+    </div>
+
+    {/* Optional Floating Label */}
+    {label && (
+      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md text-[#ee5e36] text-sm font-black px-6 py-2 rounded-full shadow-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity border-2 border-orange-100 z-50">
+        {label}
+      </div>
+    )}
+  </div>
+);
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 const HeroSection = () => (
-  <section id="why-us" className="relative w-full bg-gradient-to-br from-[#fcf7d9] via-[#f8e98a] to-[#f4d160] overflow-hidden">
-    <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 md:min-h-[90vh]">
+  <section id="why-us" className="relative w-full bg-gradient-to-br from-[#fcf7d9] via-[#f8e98a] to-[#f4d160] overflow-hidden rounded-b-[3rem] md:rounded-b-[10rem]">
+    <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 md:min-h-[95vh]">
 
       {/* Left – text */}
-      <div className="w-full md:w-1/2 flex flex-col items-start justify-center pt-12 pb-6 md:py-20">
+      <div className="w-full md:w-1/2 flex flex-col items-start justify-center pt-12 pb-6 md:py-20 relative z-10">
         <div className="mb-4 px-3 py-1.5 bg-[#d92a2a]/10 rounded-full text-[#d92a2a] text-xs md:text-sm font-bold uppercase tracking-widest">
           India's First Quick Puja Service App
         </div>
-        <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-[#5c4a3d] leading-[1.08] mb-5">
+        <h1 className="font-sans text-2xl sm:text-3xl md:text-5xl lg:text-[3.5rem] font-black text-[#5c4a3d] leading-[1.05] mb-6">
           Expert Pandits,<br />booked in<br />minutes!
         </h1>
-        <p className="text-base md:text-xl text-[#7a6a5d] mb-8 max-w-lg font-medium leading-relaxed">
+        <p className="text-base md:text-xl text-[#7a6a5d] mb-10 max-w-lg font-medium leading-relaxed">
           Now live in <strong className="text-[#5c4a3d]">Delhi NCR, Mumbai, Bengaluru, Hyderabad &amp; Pune!</strong>
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 mb-8 w-full sm:w-auto">
-          <button className="bg-gradient-to-r from-[#ffaf60] to-[#ee5e36] text-white px-7 py-3.5 rounded-full font-bold text-base shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 active:scale-95 text-center">
+        <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full sm:w-auto">
+          <button className="bg-gradient-to-r from-[#ffaf60] to-[#ee5e36] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 active:scale-95 text-center">
             Book Instantly
           </button>
-          <button className="bg-white/70 backdrop-blur-md border-2 border-[#5c4a3d] text-[#5c4a3d] px-7 py-3.5 rounded-full font-bold text-base hover:bg-[#5c4a3d] hover:text-white transition-all hover:-translate-y-1 active:scale-95 text-center">
+          <button className="bg-white/70 backdrop-blur-md border-2 border-[#5c4a3d] text-[#5c4a3d] px-8 py-4 rounded-full font-bold text-lg hover:bg-[#5c4a3d] hover:text-white transition-all hover:-translate-y-1 active:scale-95 text-center">
             Download App
           </button>
         </div>
-        <p className="text-[#5c4a3d] font-serif text-lg italic font-medium opacity-80 flex items-center gap-2">
-          <span>✨</span> Your faith, our service.
-        </p>
       </div>
 
       {/* Right – phone mockup: hidden on mobile, original sizes on desktop */}
-      <div className="hidden md:flex w-full md:w-1/2 justify-center md:justify-end items-center pb-10 md:py-0">
-        <div className="absolute w-[420px] h-[420px] bg-[#f4ebd9]/70 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative flex items-end justify-center gap-4 h-[520px]">
+      <div className="hidden md:flex w-full md:w-1/2 justify-center md:justify-end items-center pb-20 md:py-0">
+        <div className="absolute w-[500px] h-[500px] bg-[#f4ebd9]/80 rounded-full blur-[100px] pointer-events-none" />
+        <div className="relative flex items-end justify-center gap-6 h-[600px] pt-20">
           {/* Left phone */}
-          <div className="relative flex-shrink-0 -rotate-6 translate-y-6 hover:rotate-0 hover:translate-y-0 transition-all duration-500 z-10 cursor-pointer">
-            <div className="bg-gray-900 rounded-[2.2rem] p-[6px] shadow-2xl border-[5px] border-gray-900">
-              <img src="/extracted_12.png" alt="Book a Pandit Instantly"
-                className="w-36 rounded-[1.8rem] object-cover object-top"
-                style={{ height: "300px" }} />
-            </div>
-          </div>
+          <SmartphoneFrame
+            width="w-40 md:w-48"
+            height="340px"
+            rotate="-rotate-12"
+            translate="translate-y-12"
+            scale="hover:rotate-0 hover:translate-y-0"
+            zIndex="10"
+          >
+            <img src="/extracted_12.png" alt="Book a Pandit Instantly"
+              className="w-40 md:w-48 object-cover object-top"
+              style={{ height: "340px" }} />
+          </SmartphoneFrame>
+
           {/* Center phone */}
-          <div className="relative flex-shrink-0 -translate-y-8 hover:-translate-y-12 transition-all duration-500 z-20 cursor-pointer group">
-            <div className="bg-gray-900 rounded-[2.5rem] p-[7px] shadow-[0_30px_80px_rgba(0,0,0,0.3)] border-[6px] border-gray-900">
-              <img src="/extracted_10.png" alt="Easemypuja – Ab Puja Hogi Swikar"
-                className="w-44 md:w-52 rounded-[2rem] object-cover object-top"
-                style={{ height: "380px" }} />
-            </div>
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm text-[#5c4a3d] text-xs font-bold px-4 py-1.5 rounded-full shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-              Ab Puja Hogi Swikar 🙏
-            </div>
-          </div>
+          <SmartphoneFrame
+            width="w-52 md:w-64"
+            height="450px"
+            rotate="rotate-0"
+            translate="-translate-y-12"
+            scale="hover:-translate-y-16 scale-110"
+            zIndex="20"
+            label="Ab Puja Hogi Swikar 🙏"
+            isMain
+          >
+            <img src="/extracted_10.png" alt="Easemypuja – Ab Puja Hogi Swikar"
+              className="w-52 md:w-64 object-cover object-top"
+              style={{ height: "450px" }} />
+          </SmartphoneFrame>
+
           {/* Right phone */}
-          <div className="relative flex-shrink-0 rotate-6 translate-y-6 hover:rotate-0 hover:translate-y-0 transition-all duration-500 z-10 cursor-pointer">
-            <div className="bg-gray-900 rounded-[2.2rem] p-[6px] shadow-2xl border-[5px] border-gray-900">
-              <img src="/extracted_11.jpeg" alt="Featured Experiences – Book Darshan"
-                className="w-36 rounded-[1.8rem] object-cover object-top"
-                style={{ height: "300px" }} />
-            </div>
-          </div>
+          <SmartphoneFrame
+            width="w-40 md:w-48"
+            height="340px"
+            rotate="rotate-12"
+            translate="translate-y-12"
+            scale="hover:rotate-0 hover:translate-y-0"
+            zIndex="10"
+          >
+            <img src="/extracted_11.jpeg" alt="Featured Experiences – Book Darshan"
+              className="w-40 md:w-48 object-cover object-top"
+              style={{ height: "340px" }} />
+          </SmartphoneFrame>
+
         </div>
       </div>
     </div>
@@ -157,11 +251,11 @@ const StatsBar = () => {
     { num: "50,000+", label: "Hours of Blessings" },
   ];
   return (
-    <section className="w-full bg-white py-8 md:py-12 border-b border-gray-100 relative z-20 shadow-[0_-10px_40px_rgba(0,0,0,0.06)]">
+    <section className="w-full bg-[#fcfbf9] py-8 md:py-12 border-b border-gray-100 relative z-20">
       <div className="max-w-7xl mx-auto px-4 md:px-10 grid grid-cols-3 gap-2 md:gap-8 divide-x divide-gray-100">
         {stats.map((s, i) => (
           <div key={i} className="flex flex-col items-center justify-center p-3 md:p-6 hover:scale-105 transition-transform duration-300">
-            <h3 className="font-serif text-2xl sm:text-3xl md:text-5xl font-black text-[#5c4a3d] mb-1">{s.num}</h3>
+            <h3 className="font-sans text-2xl sm:text-3xl md:text-5xl font-black text-[#5c4a3d] mb-1">{s.num}</h3>
             <p className="text-[#e26938] font-bold uppercase tracking-wider text-[10px] md:text-sm text-center">{s.label}</p>
           </div>
         ))}
@@ -189,30 +283,30 @@ const ServicesSection = () => {
   const [sectionRef, inView] = useInView(0.1);
 
   return (
-    <section id="services" className="w-full bg-[#fcfbf9] py-16 md:py-24 overflow-hidden" ref={sectionRef}>
+    <section id="services" className="w-full bg-[#fcfbf9] pt-2 pb-16 md:pt-2.5 md:pb-24 overflow-hidden" ref={sectionRef}>
       <div
         className={`max-w-7xl mx-auto px-4 md:px-10 flex flex-col items-center text-center mb-10 md:mb-14 transition-all duration-700 ease-out transform ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
       >
         <SectionBadge text="Our Services" />
-        <h2 className="font-serif text-3xl md:text-5xl font-bold text-[#5c4a3d]">Book trusted Puja help</h2>
+        <h2 className="font-sans text-3xl md:text-5xl font-bold text-[#5c4a3d]">Book trusted Puja help</h2>
       </div>
       <div
-        className={`relative w-full flex overflow-hidden group cursor-pointer transition-all duration-1000 ease-out transform ${inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-24"}`}
+        className={`relative w-full flex overflow-hidden cursor-pointer transition-all duration-1000 ease-out transform ${inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-24"}`}
       >
-        <div className="flex w-max group-hover:[animation-play-state:paused]" style={{ animation: "marquee 45s linear infinite" }}>
+        <div className="flex w-max hover:[animation-play-state:paused]" style={{ animation: "marquee 45s linear infinite" }}>
           {[...services, ...services, ...services, ...services].map((s, i) => (
             <div
               key={i}
-              className="group/card relative min-w-[140px] md:min-w-[200px] h-[198px] md:h-[220px] mx-2 md:mx-3 bg-black border border-gray-100 rounded-2xl md:rounded-[2rem] shadow-sm hover:shadow-xl transition-all overflow-hidden flex items-end cursor-pointer"
+              className="group/card relative min-w-[160px] md:min-w-[230px] h-[180px] md:h-[280px] mx-2 md:mx-3 bg-[#fdf8f2] border-2 border-orange-100 rounded-2xl md:rounded-[2rem] shadow-sm hover:shadow-xl transition-all overflow-hidden isolate flex items-end cursor-pointer"
             >
               <img
                 src={`/service_${i % 10}.png`}
                 alt={s.title}
-                className="absolute inset-0 w-full h-full object-cover scale-110 group-hover/card:scale-125 transition-transform duration-700 ease-out brightness-90"
+                className="absolute inset-0 w-full h-full object-cover object-[center_35%] transition-transform duration-700 ease-out"
               />
-              {/* Always visible on mobile, hover-reveal on desktop */}
-              <div className="relative z-10 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-10 md:pt-16 pb-4 md:pb-6 px-3 md:px-4 md:opacity-0 md:translate-y-6 md:group-hover/card:opacity-100 md:group-hover/card:translate-y-0 transition-all duration-500 ease-out pointer-events-none">
-                <p className="font-bold text-white text-center text-xs md:text-base leading-tight drop-shadow-md">{s.title}</p>
+              {/* Title overlay */}
+              <div className="relative z-10 w-full bg-gradient-to-t from-black/80 via-black/30 to-transparent pt-8 pb-3 px-3 md:px-4 md:opacity-0 md:translate-y-4 md:group-hover/card:opacity-100 md:group-hover/card:translate-y-0 transition-all duration-500 ease-out pointer-events-none">
+                <p className="font-bold text-white text-center text-xs md:text-sm leading-tight drop-shadow-md">{s.title}</p>
               </div>
             </div>
           ))}
@@ -248,16 +342,25 @@ const HowItWorks = () => {
       img: "/extracted_20.jpeg",
     },
   ];
+
+  const [sectionRef, inView] = useInView(0.1);
+
   return (
-    <section id="how-it-works" className="w-full bg-white py-16 md:py-32">
+    <section id="how-it-works" className="w-full bg-white py-16 md:py-32" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-col items-center">
-        <SectionBadge text="How it works" />
-        <h2 className="font-serif text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-12 md:mb-24 text-center">
-          Simple steps to a blessed home
-        </h2>
+        <div className={`flex flex-col items-center transition-all duration-700 ease-out ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
+          <SectionBadge text="How it works" />
+          <h2 className="font-sans text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-12 md:mb-24 text-center">
+            Simple steps to a blessed home
+          </h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 w-full">
           {steps.map((s, i) => (
-            <div key={i} className="flex flex-col items-center text-center group cursor-pointer">
+            <div
+              key={i}
+              style={{ transitionDelay: `${i * 150}ms` }}
+              className={`flex flex-col items-center text-center group cursor-pointer transition-all duration-700 ease-out ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}`}
+            >
               {/* Blob background + phone-shaped image */}
               <div className="relative w-full mb-10 flex items-center justify-center " style={{ height: "300px" }}>
                 <div
@@ -274,7 +377,7 @@ const HowItWorks = () => {
                   />
                 </div>
               </div>
-              <div className="bg-gray-100/60 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold text-gray-500 tracking-widest mb-4">
+              <div className="bg-gray-100/60 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold text-gray-500 tracking-widest my-4">
                 {s.step}
               </div>
               <h3 className="text-2xl font-bold text-[#5c4a3d] mb-3 leading-snug">{s.title}</h3>
@@ -291,18 +394,18 @@ const HowItWorks = () => {
 
 const TeamSection = () => {
   const team = [
-    { name: "Harsh Pandey", role: "Co-Founder, MBA in Marketing & Finance – SGSITS Indore", img: "/extracted_30.png" },
-    { name: "Dr. Prashant Salwan", role: "Professor of Strategy & Intl. Business, IIM Indore. Alumnus – London School of Economics.", img: "/extracted_28.png" },
-    { name: "Dr. K.K Dhakad", role: "Asst. Professor – Ind. & Prod. Engg. Dept., Shri GS Institute of Technology & Science, Indore.", img: "/extracted_29.png" },
-    { name: "Pt. Anoop Pandey", role: "20+ yrs experience, 20,000+ Pujas performed. Alumnus – Banaras Hindu University.", img: "/extracted_32.png" },
-    { name: "CA Priyank Rana", role: "Entrepreneur & Visionary CA with 20+ years of experience in Finance Management.", img: "/extracted_33.jpeg" },
-    { name: "Shaily Pandey", role: "Marketing & Sales Head at Anajwala India Fresh Solutions Pvt Ltd", img: "/extracted_31.jpeg" },
+    { name: "Harsh Pandey", role: "Co-Founder, MBA in Marketing & Finance – SGSITS Indore", img: "/extracted_28.png" },
+    { name: "Dr. Prashant Salwan", role: "Professor of Strategy & Intl. Business, IIM Indore. Alumnus – London School of Economics.", img: "/extracted_29.png" },
+    { name: "Dr. K.K Dhakad", role: "Asst. Professor – Ind. & Prod. Engg. Dept., Shri GS Institute of Technology & Science, Indore.", img: "/extracted_30.png" },
+    { name: "Pt. Anoop Pandey", role: "20+ yrs experience, 20,000+ Pujas performed. Alumnus – Banaras Hindu University.", img: "/extracted_31.jpeg" },
+    { name: "CA Priyank Rana", role: "Entrepreneur & Visionary CA with 20+ years of experience in Finance Management.", img: "/extracted_32.png" },
+    { name: "Shaily Pandey", role: "Marketing & Sales Head at Anajwala India Fresh Solutions Pvt Ltd", img: "/extracted_33.jpeg" },
   ];
   return (
     <section id="team" className="w-full bg-[#f4ebd9] py-16 md:py-28 px-4 md:px-10">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         <SectionBadge text="Our Team" />
-        <h2 className="font-serif text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-16 md:mb-24 text-center">
+        <h2 className="font-sans text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-16 md:mb-24 text-center">
           Meet Our Team &amp; Mentors
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-16 md:gap-y-24 max-w-6xl w-full">
@@ -336,7 +439,7 @@ const Testimonials = () => {
 
   const ReviewCard = ({ r }) => (
     <div className="min-w-[224px] md:min-w-[340px] max-w-[224px] md:max-w-[340px] bg-white border border-gray-100 p-4 md:p-8 rounded-2xl md:rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.05)] mx-2 md:mx-4 relative flex-shrink-0 hover:-translate-y-1 transition-transform">
-      <div className="absolute top-4 left-4 md:top-6 md:left-6 text-5xl md:text-6xl text-orange-200 font-serif leading-none opacity-50">&ldquo;</div>
+      <div className="absolute top-4 left-4 md:top-6 md:left-6 text-5xl md:text-6xl text-orange-200 font-sans leading-none opacity-50">&ldquo;</div>
       <p className="text-[#5c4a3d] font-medium mt-6 md:mt-8 mb-6 md:mb-8 line-clamp-4 z-10 relative text-base md:text-lg leading-relaxed">{r.text}</p>
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#ffaf60] to-[#ee5e36] rounded-full flex items-center justify-center text-white font-bold text-base md:text-lg shadow-inner flex-shrink-0">
@@ -354,22 +457,32 @@ const Testimonials = () => {
     <section ref={sectionRef} className="w-full bg-[#f4ebd9]/50 py-16 md:py-32 overflow-hidden flex flex-col items-center">
       <div className={`flex flex-col items-center transition-all duration-700 ease-out transform ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
         <SectionBadge text="Our Testimonials" />
-        <h2 className="font-serif text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-10 md:mb-20 text-center px-4">
+        <h2 className="font-sans text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-10 md:mb-20 text-center px-4">
           What devotees are saying
         </h2>
       </div>
-      <div
-        className={`relative w-full flex overflow-hidden mb-4 md:mb-6 cursor-pointer transition-all duration-1000 ease-out transform ${inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-24"}`}
-      >
-        <div className="flex w-max" style={{ animation: "marquee 40s linear infinite" }}>
-          {[...reviews1, ...reviews1, ...reviews1, ...reviews1].map((r, i) => <ReviewCard key={`r1-${i}`} r={r} />)}
+      {/* Marquee rows with edge fades */}
+      <div className="relative w-full">
+        {/* Left fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 z-10 pointer-events-none"
+          style={{ background: "linear-gradient(to right, #f5ede0, transparent)" }} />
+        {/* Right fade */}
+        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 z-10 pointer-events-none"
+          style={{ background: "linear-gradient(to left, #f5ede0, transparent)" }} />
+
+        <div
+          className={`relative w-full flex overflow-hidden mb-4 md:mb-6 cursor-pointer transition-all duration-1000 ease-out transform ${inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-24"}`}
+        >
+          <div className="flex w-max" style={{ animation: "marquee 40s linear infinite" }}>
+            {[...reviews1, ...reviews1, ...reviews1, ...reviews1].map((r, i) => <ReviewCard key={`r1-${i}`} r={r} />)}
+          </div>
         </div>
-      </div>
-      <div
-        className={`relative w-full flex overflow-hidden cursor-pointer transition-all duration-1000 ease-out transform delay-150 ${inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-24"}`}
-      >
-        <div className="flex w-max" style={{ animation: "marquee-reverse 45s linear infinite" }}>
-          {[...reviews2, ...reviews2, ...reviews2, ...reviews2].map((r, i) => <ReviewCard key={`r2-${i}`} r={r} />)}
+        <div
+          className={`relative w-full flex overflow-hidden cursor-pointer transition-all duration-1000 ease-out transform delay-150 ${inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-24"}`}
+        >
+          <div className="flex w-max" style={{ animation: "marquee-reverse 45s linear infinite" }}>
+            {[...reviews2, ...reviews2, ...reviews2, ...reviews2].map((r, i) => <ReviewCard key={`r2-${i}`} r={r} />)}
+          </div>
         </div>
       </div>
     </section>
@@ -393,7 +506,7 @@ const FAQSection = () => {
     <section id="faqs" className="w-full bg-white py-16 md:py-32">
       <div className="max-w-3xl mx-auto px-4 md:px-8 flex flex-col items-center">
         <SectionBadge text="FAQs" />
-        <h2 className="font-serif text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-10 md:mb-16 text-center">
+        <h2 className="font-sans text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-10 md:mb-16 text-center">
           Frequently Asked Questions
         </h2>
         <div className="w-full flex flex-col gap-3 md:gap-4">
@@ -417,98 +530,103 @@ const FAQSection = () => {
   );
 };
 
-// ─── Footer CTA Banner ────────────────────────────────────────────────────────
-
-const FooterCTABanner = () => (
-  <section className="w-full bg-gradient-to-br from-[#ffaf60] to-[#ee5e36] pt-16 md:pt-24 pb-16 md:pb-24 px-4 overflow-hidden relative">
-    <div className="absolute right-[-5%] bottom-[-20%] opacity-10 pointer-events-none transform -rotate-12">
-      <span className="text-[200px] md:text-[400px] text-white">🕉️</span>
-    </div>
-    <div className="max-w-4xl mx-auto flex flex-col items-center text-center relative z-10">
-      <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 md:mb-6 leading-tight drop-shadow-sm">
-        Get expert Puja services in minutes.<br className="hidden md:block" /> Download Ease My Puja!
-      </h2>
-      <p className="text-white/95 font-semibold text-base md:text-2xl mb-8 md:mb-12 drop-shadow-sm">
-        Thousands of families already trust us for sacred rituals.
-      </p>
-      <div className="flex flex-col sm:flex-row justify-center gap-4">
-        {/* Google Play */}
-        <a href="#" className="flex items-center gap-3 bg-black text-white px-6 py-3.5 rounded-2xl hover:scale-105 hover:bg-gray-900 transition-all shadow-2xl border border-white/10 w-full sm:w-auto justify-center">
-          <svg viewBox="0 0 24 24" className="w-6 md:w-7 h-6 md:h-7 flex-shrink-0" fill="currentColor">
-            <path d="M3.18 23.76c.33.19.7.24 1.06.14l12.79-7.4-2.87-2.86-10.98 10.12zm15.58-9.03L5.83 21.99l2.86-2.63 10.07-5.63zM22.1 10.2c-.41-.23-1.05-.23-1.47 0l-2.86 1.65 2.86 2.87 1.47-.85c.41-.23.67-.66.67-1.13s-.26-.9-.67-1.54zM4.24.1C3.88 0 3.51.05 3.18.24L14.16 11.2 17.03 8.34 4.24.1z" />
-          </svg>
-          <div className="text-left">
-            <div className="text-[10px] uppercase tracking-widest text-gray-300 font-medium leading-none">GET IT ON</div>
-            <div className="text-base md:text-[17px] font-bold leading-tight mt-0.5">Google Play</div>
-          </div>
-        </a>
-        {/* App Store */}
-        <a href="#" className="flex items-center gap-3 bg-black text-white px-6 py-3.5 rounded-2xl hover:scale-105 hover:bg-gray-900 transition-all shadow-2xl border border-white/10 w-full sm:w-auto justify-center">
-          <svg viewBox="0 0 24 24" className="w-6 md:w-7 h-6 md:h-7 flex-shrink-0" fill="currentColor">
-            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-          </svg>
-          <div className="text-left">
-            <div className="text-[10px] uppercase tracking-widest text-gray-300 font-medium leading-none">Download on the</div>
-            <div className="text-base md:text-[17px] font-bold leading-tight mt-0.5">App Store</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-);
-
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 const Footer = () => (
-  <footer className="w-full bg-[#dfce48] py-12 md:py-20 px-4 md:px-10 border-t border-[#c2b236]">
-    <div className="max-w-7xl mx-auto flex flex-col">
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16">
+  <footer className="w-full bg-[#ee5e36] bg-gradient-to-br from-[#ee5e36] to-[#d92a2a] py-10 md:py-16 px-4 md:px-10 overflow-hidden relative border-t border-white/10">
+    <div className="absolute right-[-5%] top-[-10%] opacity-10 pointer-events-none transform rotate-12">
+      <span className="text-[180px] md:text-[350px] text-white">🕉️</span>
+    </div>
+    
+    <div className="max-w-7xl mx-auto flex flex-col relative z-10">
+      {/* CTA Section */}
+      <div className="flex flex-col items-center text-center mb-10 md:mb-16">
+        <h2 className="font-sans text-2xl md:text-4xl lg:text-5xl font-black text-white mb-3 md:mb-5 leading-tight drop-shadow-sm">
+          Get expert Puja services in minutes.<br className="hidden md:block" /> Download Ease My Puja!
+        </h2>
+        <p className="text-white/95 font-semibold text-sm md:text-xl mb-6 md:mb-10 drop-shadow-sm">
+          Thousands of families already trust us for sacred rituals.
+        </p>
+        <div className="flex flex-col sm:flex-row justify-center gap-3">
+          {/* Google Play */}
+          <a href="#" className="flex items-center gap-2.5 bg-black text-white px-5 py-2.5 rounded-xl hover:scale-105 hover:bg-gray-900 transition-all shadow-xl border border-white/10 w-full sm:w-auto justify-center">
+            <svg viewBox="0 0 24 24" className="w-5 md:w-6 h-5 md:h-6 flex-shrink-0" fill="currentColor">
+              <path d="M17.523 15.3414L20.3551 13.6338C21.215 13.1165 21.215 11.8835 20.3551 11.3662L17.523 9.65863L13.884 12.5L17.523 15.3414Z M12.9248 13.3333L16.4862 16.1158L5.3414 21.034C4.81432 21.2662 4.22684 21.206 3.75479 20.8761C3.70119 20.8386 3.65103 20.7981 3.60461 20.7547L12.9248 13.3333Z M12.9248 11.6667L3.60461 4.2453C3.65103 4.2019 3.70119 4.1614 3.75479 4.1239C4.22684 3.794 4.81432 3.7338 5.3414 3.966L16.4862 8.8842L12.9248 11.6667Z M3 5.5v13c0 .603.263 1.162.735 1.491l9.398-7.491L3.735 4.009C3.263 4.338 3 4.897 3 5.5z" />
+            </svg>
+            <div className="text-left">
+              <div className="text-[9px] uppercase tracking-widest text-gray-300 font-medium leading-none">GET IT ON</div>
+              <div className="text-sm md:text-base font-bold leading-tight mt-0.5">Google Play</div>
+            </div>
+          </a>
+          {/* App Store */}
+          <a href="#" className="flex items-center gap-2.5 bg-black text-white px-5 py-2.5 rounded-xl hover:scale-105 hover:bg-gray-900 transition-all shadow-xl border border-white/10 w-full sm:w-auto justify-center">
+            <svg viewBox="0 0 24 24" className="w-5 md:w-6 h-5 md:h-6 flex-shrink-0" fill="currentColor">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            <div className="text-left">
+              <div className="text-[9px] uppercase tracking-widest text-gray-300 font-medium leading-none">Download on the</div>
+              <div className="text-sm md:text-base font-bold leading-tight mt-0.5">App Store</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10 mb-8 md:mb-12 border-t border-white/20 pt-10 md:pt-12">
         {/* Brand */}
-        <div className="col-span-2 md:col-span-1 flex flex-col gap-4 md:gap-6">
+        <div className="col-span-2 md:col-span-1 flex flex-col gap-3 md:gap-5">
           <div className="flex items-center gap-3">
-            <img src="/extracted_10.png" alt="Ease My Puja Logo" className="w-9 h-9 md:w-10 md:h-10 rounded-xl object-cover" />
-            <span className="font-serif text-xl md:text-2xl font-black text-[#3d3128] tracking-tight">Ease My Puja</span>
+            <span className="font-sans text-lg md:text-xl font-black text-white tracking-tight uppercase">Ease My Puja</span>
           </div>
-          <p className="text-[#5c4a3d] leading-relaxed font-medium text-sm">
+          <p className="text-white/80 leading-relaxed font-medium text-xs md:text-sm">
             India's first quick puja service app connecting you with verified expert Pandits across the country.
           </p>
           <div className="flex items-center gap-3 mt-1">
-            <div className="w-10 h-10 rounded-full bg-[#3d3128] text-white flex items-center justify-center font-bold hover:-translate-y-1 transition-transform cursor-pointer shadow-md text-xs">in</div>
-            <div className="w-10 h-10 rounded-full bg-[#3d3128] text-white flex items-center justify-center font-bold hover:-translate-y-1 transition-transform cursor-pointer shadow-md text-xs">ig</div>
-            <div className="w-10 h-10 rounded-full bg-[#3d3128] text-white flex items-center justify-center font-bold hover:-translate-y-1 transition-transform cursor-pointer shadow-md text-xs">fb</div>
+            <a href="#" className="w-9 h-9 rounded-full bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:-translate-y-1 transition-transform cursor-pointer shadow-md">
+              <svg viewBox="0 0 24 24" className="w-4.5 h-4.5" fill="currentColor">
+                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+              </svg>
+            </a>
+            <a href="#" className="w-9 h-9 rounded-full bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:-translate-y-1 transition-transform cursor-pointer shadow-md">
+              <svg viewBox="0 0 24 24" className="w-4.5 h-4.5" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
           </div>
         </div>
         {/* Support */}
         <div>
-          <h4 className="font-bold text-[#3d3128] text-base md:text-xl mb-4 md:mb-6 tracking-wide">Support</h4>
-          <ul className="space-y-3 text-[#5c4a3d] font-medium text-sm">
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">Help Center</a></li>
-            <li><a href="mailto:help@easemypuja.com" className="hover:text-black hover:underline transition-colors break-all">help@easemypuja.com</a></li>
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">Contact Us</a></li>
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">Delete Account</a></li>
+          <h4 className="font-bold text-white text-base mb-3 md:mb-5 tracking-wide underline decoration-white/30 underline-offset-8">Support</h4>
+          <ul className="space-y-2.5 text-white/80 font-medium text-xs md:text-sm">
+            <li><a href="#" className="hover:text-white hover:underline transition-colors">Help Center</a></li>
+            <li><a href="mailto:easemypujaofficial@gmail.com" className="hover:text-white hover:underline transition-colors break-all">easemypujaofficial@gmail.com</a></li>
+            <li><a href="#" className="hover:text-white hover:underline transition-colors">Contact Us</a></li>
+            <li className="flex flex-col gap-0.5 text-white/90 font-bold">
+              <a href="tel:6262446655" className="hover:text-white transition-colors">+91 6262446655</a>
+              <a href="tel:8889990352" className="hover:text-white transition-colors">+91 8889990352</a>
+            </li>
           </ul>
         </div>
         {/* Company */}
         <div>
-          <h4 className="font-bold text-[#3d3128] text-base md:text-xl mb-4 md:mb-6 tracking-wide">Company</h4>
-          <ul className="space-y-3 text-[#5c4a3d] font-medium text-sm">
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">About Us</a></li>
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">Careers</a></li>
-            <li><a href="#" className="hover:text-[#d92a2a] hover:underline font-semibold transition-colors">Become a Pandit Partner</a></li>
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">Blog</a></li>
+          <h4 className="font-bold text-white text-base mb-3 md:mb-5 tracking-wide underline decoration-white/30 underline-offset-8">Company</h4>
+          <ul className="space-y-2.5 text-white/80 font-medium text-xs md:text-sm">
+            <li><a href="#" className="hover:text-white hover:underline transition-colors">About Us</a></li>
+            <li><a href="#" className="hover:text-white hover:underline transition-colors">Careers</a></li>
+            <li><a href="#" className="hover:text-[#ffaf60] hover:underline font-semibold transition-colors">Become a Pandit Partner</a></li>
+            <li><a href="#" className="hover:text-white hover:underline transition-colors">Blog</a></li>
           </ul>
         </div>
         {/* Legal */}
         <div>
-          <h4 className="font-bold text-[#3d3128] text-base md:text-xl mb-4 md:mb-6 tracking-wide">Legal</h4>
-          <ul className="space-y-3 text-[#5c4a3d] font-medium text-sm">
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">Terms &amp; Conditions</a></li>
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-black hover:underline transition-colors">Cancellation Policy</a></li>
+          <h4 className="font-bold text-white text-base mb-3 md:mb-5 tracking-wide underline decoration-white/30 underline-offset-8">Legal</h4>
+          <ul className="space-y-2.5 text-white/80 font-medium text-xs md:text-sm">
+            <li><a href="#" className="hover:text-white hover:underline transition-colors">Terms &amp; Conditions</a></li>
+            <li><a href="#" className="hover:text-white hover:underline transition-colors">Privacy Policy</a></li>
+            <li><a href="#" className="hover:text-white hover:underline transition-colors">Cancellation Policy</a></li>
           </ul>
         </div>
       </div>
-      <div className="w-full pt-6 md:pt-8 border-t-[1.5px] border-[#c2b236] flex flex-col md:flex-row items-center justify-between text-[#5c4a3d] font-bold text-xs md:text-sm gap-2">
+      <div className="w-full pt-5 md:pt-7 border-t border-white/20 flex flex-col md:flex-row items-center justify-between text-white/60 font-bold text-[10px] md:text-xs gap-2">
         <p>Ease My Puja &copy; {new Date().getFullYear()}</p>
         <p>Made with ❤️ in India</p>
       </div>
@@ -529,7 +647,6 @@ export default function Home() {
       <TeamSection />
       <Testimonials />
       <FAQSection />
-      <FooterCTABanner />
       <Footer />
     </div>
   );
