@@ -163,49 +163,145 @@ const SmartphoneFrame = ({ children, width, height, rotate, translate, scale, zI
 );
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
+const HeroSection = () => {
+  const [sectionRef, inView] = useInView(0.1);
 
-const HeroSection = () => (
-  <section id="why-us" className="relative w-full bg-gradient-to-br from-[#fcf7d9] via-[#f8e98a] to-[#f4d160] overflow-hidden rounded-b-[3rem] md:rounded-b-[10rem]">
-    <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 md:min-h-[98vh]">
+  return (
+    <section id="why-us" className="relative w-full bg-[#fdfbf7] overflow-hidden pt-12 md:pt-20 rounded-b-[4rem] md:rounded-b-[12rem] shadow-2xl z-20" ref={sectionRef}>
+      <style>{`
+        @keyframes slide-in-right {
+          0% { transform: translateX(60%) scaleX(-1); opacity: 0; }
+          80% { opacity: 1; }
+          100% { transform: translateX(0) scaleX(-1); opacity: 1; }
+        }
+        @keyframes slide-in-left {
+          0% { transform: translateX(-60%); opacity: 0; }
+          80% { opacity: 1; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+        .animate-slide-in-right {
+          animation: slide-in-right 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+        }
+        .animate-slide-in-left {
+          animation: slide-in-left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+        }
+      `}</style>
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white via-[#fffbf0] to-orange-50/50 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-orange-100/25 pointer-events-none" />
 
-      {/* Left – text */}
-      <div className="w-full md:w-1/2 flex flex-col items-start justify-center pt-12 pb-6 md:py-20 relative z-10">
-        <div className="mb-4 px-3 py-1.5 bg-[#d92a2a]/10 rounded-full text-[#d92a2a] text-xs md:text-sm font-bold uppercase tracking-widest">
-          India's First Quick Puja Service App
-        </div>
-        <h1 className="font-sans text-2xl sm:text-3xl md:text-5xl lg:text-[3.5rem] font-black text-[#5c4a3d] leading-[1.05] mb-6">
-          Expert Pandits,<br />booked in<br />minutes!
-        </h1>
-        <p className="text-base md:text-xl text-[#7a6a5d] mb-10 max-w-lg font-medium leading-relaxed">
-          Now live in <strong className="text-[#5c4a3d]">Delhi NCR, Mumbai, Bengaluru, Hyderabad &amp; Pune!</strong>
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full sm:w-auto">
-          <button className="bg-gradient-to-r from-[#ffaf60] to-[#ee5e36] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 active:scale-95 text-center">
-            Book Instantly
-          </button>
-          <button className="bg-white/70 backdrop-blur-md border-2 border-[#5c4a3d] text-[#5c4a3d] px-8 py-4 rounded-full font-bold text-lg hover:bg-[#5c4a3d] hover:text-white transition-all hover:-translate-y-1 active:scale-95 text-center">
-            Download App
-          </button>
+      <div className="max-w-4xl mx-auto px-4 relative z-20 flex flex-col items-center text-center">
+        {/* Content Layer */}
+        <div className={`transition-all duration-1000 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
+          <div className="mb-4 px-3 py-1 bg-orange-100 rounded-full text-[#d92a2a] text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] inline-block shadow-sm">
+            {/* India's First Quick Puja Service App */}
+          </div>
+          <h1 className="font-sans text-2xl my-2 sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#5c4a3d] leading-[1.1] mb-5 drop-shadow-sm">
+            Expert Pandits,<br className="hidden md:block" /> booked in <span className="text-[#ee5e36]">minutes!</span>
+          </h1>
+          <p className="text-sm md:text-lg text-[#7a6a5d] mb-4 max-w-xl mx-auto font-medium leading-relaxed">
+            Experience the divine with ease. Serving <strong className="text-[#5c4a3d]">Delhi NCR, Mumbai, Bengaluru, Hyderabad &amp; Pune!</strong>
+          </p>
+
+          <div className="flex flex-col items-center gap-4 mb-4">
+            <div className="flex flex-wrap justify-center gap-3">
+              {/* Google Play */}
+              <a href="#" className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl hover:scale-105 hover:bg-gray-900 transition-all shadow-xl border border-white/10">
+                <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" fill="currentColor">
+                  <path d="M17.523 15.3414L20.3551 13.6338C21.215 13.1165 21.215 11.8835 20.3551 11.3662L17.523 9.65863L13.884 12.5L17.523 15.3414Z M12.9248 13.3333L16.4862 16.1158L5.3414 21.034C4.81432 21.2662 4.22684 21.206 3.75479 20.8761C3.70119 20.8386 3.65103 20.7981 3.60461 20.7547L12.9248 13.3333Z M12.9248 11.6667L3.60461 4.2453C3.65103 4.2019 3.70119 4.1614 3.75479 4.1239C4.22684 3.794 4.81432 3.7338 5.3414 3.966L16.4862 8.8842L12.9248 11.6667Z M3 5.5v13c0 .603.263 1.162.735 1.491l9.398-7.491L3.735 4.009C3.263 4.338 3 4.897 3 5.5z" />
+                </svg>
+                <div className="text-left">
+                  <div className="text-[8px] uppercase tracking-widest text-gray-400 font-semibold leading-none">GET IT ON</div>
+                  <div className="text-xs font-bold leading-tight mt-0.5">Google Play</div>
+                </div>
+              </a>
+              {/* App Store */}
+              <a href="#" className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl hover:scale-105 hover:bg-gray-900 transition-all shadow-xl border border-white/10">
+                <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0" fill="currentColor">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                </svg>
+                <div className="text-left">
+                  <div className="text-[8px] uppercase tracking-widest text-gray-400 font-semibold leading-none">Download on the</div>
+                  <div className="text-xs font-bold leading-tight mt-0.5">App Store</div>
+                </div>
+              </a>
+            </div>
+
+            <button className="group relative px-8 py-4 bg-gradient-to-r from-[#ffaf60] to-[#ee5e36] text-white rounded-full font-black text-lg shadow-[0_15px_30px_rgba(238,94,54,0.3)] hover:shadow-[0_20px_40px_rgba(238,94,54,0.4)] transition-all hover:-translate-y-1 active:scale-95">
+              <span className="relative z-10">Book a Pandit Instantly</span>
+              <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* Right – phones image */}
-      <div className="hidden md:flex w-full md:w-1/2 justify-center md:justify-end items-center py-10 md:py-0 relative">
-        <div className="absolute w-[500px] h-[500px] bg-[#f4ebd9]/80 rounded-full blur-[100px] pointer-events-none" />
-<Image
-  src="/phones.png"
-  alt="Ease My Puja App Screenshots"
-  width={580}
-  height={400}
-  className="relative z-10 w-full max-w-[580px] object-contain drop-shadow-2xl"
-/>
+      {/* Phones Layer (Overlapping bottom) */}
+      <div className={`relative w-full max-w-4xl h-150 mx-auto mt-0 mb-[-6rem] md:mb-[-12rem] transition-all duration-1000 delay-300 transform z-30 ${inView ? "opacity-100 translate-y-5" : "opacity-0 translate-y-20"}`}>
+        <div className="absolute -inset-6 bg-[#ee5e36]/10 blur-[80px] rounded-full pointer-events-none" />
+        <Image
+          src="/phones.png"
+          alt="Ease My Puja App"
+          width={500}
+          height={900}
+          className="relative z-10 w-full h-full object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.15)]"
+        />
       </div>
 
-    </div>
-  </section>
-);
+      {/* Pandit Layer (Desktop Only) - Increased size */}
+      <div className="hidden lg:block absolute bottom-0 left-[-5%] w-[35%] max-w-[500px] z-10 pointer-events-none origin-bottom">
+        <div className={`${inView ? "animate-slide-in-left" : "opacity-0"}`}>
+          <Image
+            src="/pandit.png"
+            alt="Pandit Left"
+            width={600}
+            height={1000}
+            className="w-full h-auto object-contain drop-shadow-2xl translate-y-12"
+          />
+        </div>
+      </div>
+      <div className="hidden lg:block absolute bottom-0 right-[-5%] w-[35%] max-w-[500px] z-10 pointer-events-none origin-bottom scale-x-[-1]">
+        <div className={`${inView ? "animate-slide-in-right" : "opacity-0"}`}>
+          <Image
+            src="/pandit.png"
+            alt="Pandit Right"
+            width={600}
+            height={1000}
+            className="w-full h-auto object-contain drop-shadow-2xl translate-y-12"
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
 
 // ─── Stats Bar ────────────────────────────────────────────────────────────────
+
+// Helper hook for counting up
+function useCountUp(target, duration = 1500) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    let start = 0;
+    let end = parseInt(target.toString().replace(/[^\d]/g, ""));
+    if (isNaN(end)) end = 0;
+    if (end === 0) {
+      setCount(0);
+      return;
+    }
+    let startTime = null;
+    function animateCount(ts) {
+      if (!startTime) startTime = ts;
+      const progress = Math.min((ts - startTime) / duration, 1);
+      setCount(Math.floor(progress * (end - start) + start));
+      if (progress < 1) {
+        requestAnimationFrame(animateCount);
+      } else {
+        setCount(end);
+      }
+    }
+    requestAnimationFrame(animateCount);
+    // eslint-disable-next-line
+  }, [target, duration]);
+  return count;
+}
 
 const StatsBar = () => {
   const stats = [
@@ -214,14 +310,21 @@ const StatsBar = () => {
     { num: "50,000+", label: "Hours of Blessings" },
   ];
   return (
-    <section className="w-full bg-[#fcfbf9] py-8 md:py-12 border-b border-gray-100 relative z-20">
+    <section className="w-full bg-[#fcfbf9] pt-24 pb-12 md:pb-16 border-b border-gray-100 relative z-10 -mt-20">
       <div className="max-w-7xl mx-auto px-4 md:px-10 grid grid-cols-3 gap-2 md:gap-8 divide-x divide-gray-100">
-        {stats.map((s, i) => (
-          <div key={i} className="flex flex-col items-center justify-center p-3 md:p-6 hover:scale-105 transition-transform duration-300">
-            <h3 className="font-sans text-2xl sm:text-3xl md:text-5xl font-black text-[#5c4a3d] mb-1">{s.num}</h3>
-            <p className="text-[#e26938] font-bold uppercase tracking-wider text-[10px] md:text-sm text-center">{s.label}</p>
-          </div>
-        ))}
+        {stats.map((s, i) => {
+          const count = useCountUp(s.num);
+          // Format with commas and append + if needed
+          const formatted = s.num.includes(",")
+            ? count.toLocaleString() + (s.num.endsWith("+") ? "+" : "")
+            : count + (s.num.endsWith("+") ? "+" : "");
+          return (
+            <div key={i} className="flex flex-col items-center justify-center p-3 md:p-6 hover:scale-105 transition-transform duration-300">
+              <h3 className="font-sans text-2xl sm:text-3xl md:text-5xl font-black text-[#5c4a3d] mb-1">{formatted}</h3>
+              <p className="text-[#e26938] font-bold uppercase tracking-wider text-[10px] md:text-sm text-center">{s.label}</p>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -500,7 +603,7 @@ const Footer = () => (
     <div className="absolute right-[-5%] top-[-10%] opacity-10 pointer-events-none transform rotate-12">
       <span className="text-[180px] md:text-[350px] text-white">🕉️</span>
     </div>
-    
+
     <div className="max-w-7xl mx-auto flex flex-col relative z-10">
       {/* CTA Section */}
       <div className="flex flex-col items-center text-center mb-10 md:mb-16">
