@@ -164,8 +164,8 @@ const SmartphoneFrame = ({ children, width, height, rotate, translate, scale, zI
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 const HeroSection = () => (
-  <section id="why-us" className="relative w-full bg-gradient-to-br from-[#fcf7d9] via-[#f8e98a] to-[#f4d160] overflow-hidden rounded-b-[3rem] md:rounded-b-[10rem]">
-    <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 md:min-h-[95vh]">
+  <section id="why-us" className="relative w-full bg-linear-to-br from-[#fcf7d9] via-[#f8e98a] to-[#f4d160] overflow-hidden rounded-b-[3rem] md:rounded-b-[10rem]">
+    <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 md:min-h-[98vh]">
 
       {/* Left – text */}
       <div className="w-full md:w-1/2 flex flex-col items-start justify-center pt-12 pb-6 md:py-20 relative z-10">
@@ -179,7 +179,7 @@ const HeroSection = () => (
           Now live in <strong className="text-[#5c4a3d]">Delhi NCR, Mumbai, Bengaluru, Hyderabad &amp; Pune!</strong>
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full sm:w-auto">
-          <button className="bg-gradient-to-r from-[#ffaf60] to-[#ee5e36] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 active:scale-95 text-center">
+          <button className="bg-linear-to-r from-[#ffaf60] to-[#ee5e36] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 active:scale-95 text-center">
             Book Instantly
           </button>
           <button className="bg-white/70 backdrop-blur-md border-2 border-[#5c4a3d] text-[#5c4a3d] px-8 py-4 rounded-full font-bold text-lg hover:bg-[#5c4a3d] hover:text-white transition-all hover:-translate-y-1 active:scale-95 text-center">
@@ -190,8 +190,8 @@ const HeroSection = () => (
 
       {/* Right – phone mockup: hidden on mobile, original sizes on desktop */}
       <div className="hidden md:flex w-full md:w-1/2 justify-center md:justify-end items-center pb-20 md:py-0">
-        <div className="absolute w-[500px] h-[500px] bg-[#f4ebd9]/80 rounded-full blur-[100px] pointer-events-none" />
-        <div className="relative flex items-end justify-center gap-6 h-[600px] pt-20">
+        <div className="absolute w-125 h-125 bg-[#f4ebd9]/80 rounded-full blur-[100px] pointer-events-none" />
+        <div className="relative flex items-end justify-center gap-6 h-125 pt-20">
           {/* Left phone */}
           <SmartphoneFrame
             width="w-40 md:w-48"
@@ -212,7 +212,7 @@ const HeroSection = () => (
             height="450px"
             rotate="rotate-0"
             translate="-translate-y-12"
-            scale="hover:-translate-y-16 scale-110"
+            // scale="hover:-translate-y-16 scale-110"
             zIndex="20"
             label="Ab Puja Hogi Swikar 🙏"
             isMain
