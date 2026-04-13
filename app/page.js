@@ -197,10 +197,14 @@ const HeroSection = () => {
             {/* India's First Quick Puja Service App */}
           </div>
           <h1 className="font-sans text-2xl my-2 sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#5c4a3d] leading-[1.1] mb-5 drop-shadow-sm">
-            Expert Pandits,<br className="hidden md:block" /> booked in <span className="text-[#ee5e36]">minutes!</span>
+            Trusted puja booking in minutes
           </h1>
-          <p className="text-sm md:text-lg text-[#7a6a5d] mb-4 max-w-xl mx-auto font-medium leading-relaxed">
-            Experience the divine with ease. Serving <strong className="text-[#5c4a3d]">Delhi NCR, Mumbai, Bengaluru, Hyderabad &amp; Pune!</strong>
+          <p className="text-base md:text-xl text-[#7a6a5d] mb-2 max-w-2xl mx-auto font-semibold leading-relaxed">
+            Book verified pandits, temple pujas, and VIP darshan anytime, anywhere.<br />
+            From problem to puja — in one tap.
+          </p>
+          <p className="text-xs md:text-base text-[#e26938] mb-4 max-w-xl mx-auto font-medium leading-relaxed">
+            Now live in Indore, Ujjain, Gorakhpur, Banaras, with online and offline booking options.
           </p>
 
           <div className="flex flex-col items-center gap-4 mb-4">
@@ -305,22 +309,26 @@ function useCountUp(target, duration = 1500) {
 
 const StatsBar = () => {
   const stats = [
-    { num: "10,000+", label: "Pujas Completed" },
-    { num: "500+", label: "Verified Pandits" },
-    { num: "50,000+", label: "Hours of Blessings" },
+    { num: "500+", label: "Devotees Served", animate: true },
+    { num: "4.8", label: "★ Average Rating", animate: false },
+    { num: "5", label: "City Launched", animate: false },
+    { num: "500+", label: "Pujas Available", animate: true },
+    { num: "100%", label: "Authentic Rituals", animate: false },
   ];
   return (
     <section className="w-full bg-[#fcfbf9] pt-24 pb-12 md:pb-16 border-b border-gray-100 relative z-10 -mt-20">
-      <div className="max-w-7xl mx-auto px-4 md:px-10 grid grid-cols-3 gap-2 md:gap-8 divide-x divide-gray-100">
+      <div className="max-w-5xl mx-auto px-4 md:px-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 md:gap-8 divide-x divide-gray-100">
         {stats.map((s, i) => {
-          const count = useCountUp(s.num);
-          // Format with commas and append + if needed
-          const formatted = s.num.includes(",")
-            ? count.toLocaleString() + (s.num.endsWith("+") ? "+" : "")
-            : count + (s.num.endsWith("+") ? "+" : "");
+          let formatted = s.num;
+          if (s.animate) {
+            const count = useCountUp(s.num);
+            formatted = s.num.includes(",")
+              ? count.toLocaleString() + (s.num.endsWith("+") ? "+" : "")
+              : count + (s.num.endsWith("+") ? "+" : "");
+          }
           return (
             <div key={i} className="flex flex-col items-center justify-center p-3 md:p-6 hover:scale-105 transition-transform duration-300">
-              <h3 className="font-sans text-2xl sm:text-3xl md:text-5xl font-black text-[#5c4a3d] mb-1">{formatted}</h3>
+              <h3 className="font-sans text-2xl sm:text-3xl md:text-4xl font-black text-[#5c4a3d] mb-1">{formatted}</h3>
               <p className="text-[#e26938] font-bold uppercase tracking-wider text-[10px] md:text-sm text-center">{s.label}</p>
             </div>
           );
@@ -559,21 +567,19 @@ const Testimonials = () => {
 
 const FAQSection = () => {
   const faqs = [
-    { q: "What is Ease My Puja?", a: "Ease My Puja is India's first quick puja service app that connects devotees with verified, experienced Pandits for all types of religious ceremonies." },
-    { q: "How do I book a Pandit?", a: "Simply download our app or use the website, select your desired Puja, view pricing, and schedule a Pandit instantly or for a later date." },
-    { q: "Can I schedule a recurring Puja?", a: "Yes, you can easily set up daily, weekly, or monthly recurring pujas through our application." },
-    { q: "Are the Pandits verified?", a: "Absolutely. All our Pandits go through a stringent background check and their Vedic knowledge is verified before they join our platform." },
-    { q: "How is pricing determined?", a: "Our pricing is transparent and standardized based on the type of Puja, duration, and samagri required. No hidden costs." },
-    { q: "Which cities are you available in?", a: "We are currently fully operational in Delhi NCR, Mumbai, Bengaluru, Hyderabad, and Pune." },
-    { q: "How do I contact support?", a: "You can reach us 24/7 at help@easemypuja.com or by calling 8889990352." },
+    { q: "What is Ease My Puja?", a: "A platform for booking verified pandits, temple pujas, online pujas, and VIP darshan." },
+    { q: "Are the pandits verified?", a: "Yes. EMP Partners are listed with profile details and verification." },
+    { q: "Can I book urgently?", a: "Yes. We support instant and scheduled bookings." },
+    { q: "Is pricing transparent?", a: "Yes. You can view the base price and choose accordingly." },
+    { q: "Can I book recurring pujas?", a: "Yes. Monthly and regular plans are available." },
   ];
   const [openIdx, setOpenIdx] = useState(0);
   return (
     <section id="faqs" className="w-full bg-white py-16 md:py-32">
       <div className="max-w-3xl mx-auto px-4 md:px-8 flex flex-col items-center">
-        <SectionBadge text="FAQs" />
+        <SectionBadge text="FAQ Section" />
         <h2 className="font-sans text-3xl md:text-5xl font-bold text-[#5c4a3d] mb-10 md:mb-16 text-center">
-          Frequently Asked Questions
+          FAQ Section
         </h2>
         <div className="w-full flex flex-col gap-3 md:gap-4">
           {faqs.map((faq, idx) => {
@@ -700,6 +706,40 @@ const Footer = () => (
   </footer>
 );
 
+    const WhyEaseMyPuja = () => (
+      <section id="why-ease-my-puja" className="w-full bg-[#fff8f2] py-16 md:py-28 px-4 md:px-0 border-t border-orange-100">
+        <div className="max-w-4xl mx-auto flex flex-col items-center text-center gap-10">
+          <div>
+            <SectionBadge text="Why Ease My Puja" />
+            <h2 className="font-sans text-3xl md:text-5xl font-bold text-[#d92a2a] mb-4">Why Ease My Puja</h2>
+            <p className="text-[#5c4a3d] text-lg md:text-2xl font-semibold mb-2">Fair pricing. Verified pandits. Transparent process.</p>
+            <p className="text-[#7a6a5d] text-base md:text-lg mb-2">You choose the pandit, you see the profile, and you decide based on trust and experience.</p>
+            <p className="text-[#7a6a5d] text-base md:text-lg mb-2">No hidden steps. No confusion. No overpricing.</p>
+          </div>
+          <div className="w-full border-t border-orange-200 my-2" />
+          <div className="flex flex-col md:flex-row gap-8 w-full">
+            <div className="flex-1 bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+              <h3 className="font-bold text-[#ee5e36] text-xl mb-2">Verified Pandits</h3>
+              <p className="text-[#5c4a3d] font-medium mb-1">Trusted EMP Partners you can rely on</p>
+              <p className="text-[#7a6a5d] text-sm mb-2">Every pandit is verified, professionally dressed, and listed with profile details, ID, and ratings.</p>
+              <p className="text-[#7a6a5d] text-sm">We build trust at every step.</p>
+            </div>
+            <div className="flex-1 bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+              <h3 className="font-bold text-[#ee5e36] text-xl mb-2">Temple Services</h3>
+              <p className="text-[#5c4a3d] font-medium mb-1">Temple pujas and VIP darshan simplified</p>
+              <p className="text-[#7a6a5d] text-sm mb-2">Book temple rituals, special pujas, and darshan support without the usual hassle.</p>
+              <p className="text-[#7a6a5d] text-sm">Perfect for families, senior citizens, and urgent last-minute needs.</p>
+            </div>
+            <div className="flex-1 bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+              <h3 className="font-bold text-[#ee5e36] text-xl mb-2">Recurring Plans</h3>
+              <p className="text-[#5c4a3d] font-medium mb-1">Regular puja, without the reminder stress</p>
+              <p className="text-[#7a6a5d] text-sm mb-2">For homes, offices, hotels, restaurants, and businesses that need monthly or festival pujas.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
 export default function Home() {
@@ -710,6 +750,7 @@ export default function Home() {
       <StatsBar />
       <ServicesSection />
       <HowItWorks />
+      <WhyEaseMyPuja />
       <TeamSection />
       <Testimonials />
       <FAQSection />
