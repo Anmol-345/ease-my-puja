@@ -164,7 +164,7 @@ const SmartphoneFrame = ({ children, width, height, rotate, translate, scale, zI
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 const HeroSection = () => (
-  <section id="why-us" className="relative w-full bg-linear-to-br from-[#fcf7d9] via-[#f8e98a] to-[#f4d160] overflow-hidden rounded-b-[3rem] md:rounded-b-[10rem]">
+  <section id="why-us" className="relative w-full bg-gradient-to-br from-[#fcf7d9] via-[#f8e98a] to-[#f4d160] overflow-hidden rounded-b-[3rem] md:rounded-b-[10rem]">
     <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 md:min-h-[98vh]">
 
       {/* Left – text */}
