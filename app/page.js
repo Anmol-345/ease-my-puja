@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useRef, useEffect } from "react";
+import Image from 'next/image'
 
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
@@ -191,11 +192,13 @@ const HeroSection = () => (
       {/* Right – phones image */}
       <div className="hidden md:flex w-full md:w-1/2 justify-center md:justify-end items-center py-10 md:py-0 relative">
         <div className="absolute w-[500px] h-[500px] bg-[#f4ebd9]/80 rounded-full blur-[100px] pointer-events-none" />
-        <img
-          src="/phones.png"
-          alt="Ease My Puja App Screenshots"
-          className="relative z-10 w-full max-w-[580px] object-contain drop-shadow-2xl"
-        />
+<Image
+  src="/phones.png"
+  alt="Ease My Puja App Screenshots"
+  width={580}
+  height={400}
+  className="relative z-10 w-full max-w-[580px] object-contain drop-shadow-2xl"
+/>
       </div>
 
     </div>
