@@ -188,56 +188,16 @@ const HeroSection = () => (
         </div>
       </div>
 
-      {/* Right – phone mockups */}
-      <div className="hidden md:flex w-full md:w-1/2 justify-center md:justify-end items-center pb-20 md:py-0">
+      {/* Right – phones image */}
+      <div className="hidden md:flex w-full md:w-1/2 justify-center md:justify-end items-center py-10 md:py-0 relative">
         <div className="absolute w-[500px] h-[500px] bg-[#f4ebd9]/80 rounded-full blur-[100px] pointer-events-none" />
-        <div className="relative flex items-end justify-center gap-6 h-[500px] pt-20">
-
-          {/* Left phone */}
-          <SmartphoneFrame
-            width="w-40 md:w-48"
-            height="340px"
-            rotate="-rotate-12"
-            translate="translate-y-12"
-            scale="hover:rotate-0 hover:translate-y-0"
-            zIndex="10"
-          >
-            <img src="/extracted_12.png" alt="Book a Pandit Instantly"
-              className="w-40 md:w-48 object-cover object-top"
-              style={{ height: "340px" }} />
-          </SmartphoneFrame>
-
-          {/* Center phone */}
-          <SmartphoneFrame
-            width="w-52 md:w-64"
-            height="450px"
-            rotate="rotate-0"
-            translate="-translate-y-12"
-            zIndex="20"
-            label="Ab Puja Hogi Swikar 🙏"
-            isMain
-          >
-            <img src="/extracted_10.png" alt="Easemypuja – Ab Puja Hogi Swikar"
-              className="w-52 md:w-64 object-cover object-top"
-              style={{ height: "450px" }} />
-          </SmartphoneFrame>
-
-          {/* Right phone */}
-          <SmartphoneFrame
-            width="w-40 md:w-48"
-            height="340px"
-            rotate="rotate-12"
-            translate="translate-y-12"
-            scale="hover:rotate-0 hover:translate-y-0"
-            zIndex="10"
-          >
-            <img src="/extracted_11.jpeg" alt="Featured Experiences – Book Darshan"
-              className="w-40 md:w-48 object-cover object-top"
-              style={{ height: "340px" }} />
-          </SmartphoneFrame>
-
-        </div>
+        <img
+          src="/phones.png"
+          alt="Ease My Puja App Screenshots"
+          className="relative z-10 w-full max-w-[580px] object-contain drop-shadow-2xl"
+        />
       </div>
+
     </div>
   </section>
 );
